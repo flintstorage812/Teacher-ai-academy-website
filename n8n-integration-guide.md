@@ -387,3 +387,4 @@ Here's a complete example workflow that generates and publishes a blog post:
 This integration guide provides a foundation for automating your blog content creation and publishing process. Customize the workflows based on your specific needs and gradually add more sophisticated features as you become comfortable with the system.
 
 Remember to always review AI-generated content before publishing and maintain backups of your content and workflows.
+
