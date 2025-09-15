@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Teacher AI Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="Teacher AI Academy Blog" href="rss.xml">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #f8fafc;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(to bottom, #0b1220 0%, #19243e 35%, #3a4f7a 50%, #19243e 65%, #0b1220 100%);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            border-radius: 0 0 25px 25px;
+            margin: 0 1rem 1rem 1rem;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            min-height: 70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f8fafc;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.35),
+                0 16px 32px rgba(0, 0, 0, 0.25),
+                0 0 6px rgba(255, 255, 255, 0.25),
+                0 0 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .logo:hover {
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #f8fafc;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            letter-spacing: 1px;
+            text-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.35),
+                0 16px 32px rgba(0, 0, 0, 0.25),
+                0 0 6px rgba(255, 255, 255, 0.25),
+                0 0 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .nav-links a.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Main Content */
+        main {
+            padding: 4rem 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-title h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rss-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .rss-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Blog Layout */
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Blog Posts */
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .blog-post {
+            background: linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-post::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .post-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-category {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .post-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            position: relative;
+            z-index: 2;
+        }
+
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .post-title a:hover {
+            color: #3b82f6;
+        }
+
+        .post-excerpt {
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .read-more:hover {
+            color: #60a5fa;
+            transform: translateX(4px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            background: linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .sidebar h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            padding-left: 0.5rem;
+        }
+
+        .rss-subscribe {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .rss-subscribe h4 {
+            color: #3b82f6;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rss-subscribe p {
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rss-subscribe a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 58, 138, 0.2);
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: rgba(30, 58, 138, 0.3);
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .pagination a.active {
+            background: #1e3a8a;
+            color: #eaf2ff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .blog-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                margin: 0 0.5rem 0.5rem 0.5rem;
+                border-radius: 0 0 20px 20px;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 1.5rem;
+                min-height: auto;
+            }
+            
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            .page-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-title p {
+                font-size: 1.1rem;
+            }
+
+            .blog-post {
+                padding: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                margin: 0 0.3rem 0.3rem 0.3rem;
+                border-radius: 0 0 15px 15px;
+            }
+            
+            nav {
+                padding: 0.8rem 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .page-title p {
+                font-size: 1rem;
+            }
+
+            .blog-post {
+                padding: 1.2rem;
+            }
+
+            .post-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Teacher AI Academy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="curriculum.html">Curriculum</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="page-title">
+                <h1>AI Education Blog</h1>
+                <p>Insights, tips, and strategies for integrating AI into your teaching practice. Stay updated with the latest trends and practical applications.</p>
+                <a href="rss.xml" class="rss-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248S0 22.546 0 20.752s1.456-3.248 3.252-3.248 3.251 1.454 3.251 3.248zM2.057 0C9.24 0 16.7 7.461 16.7 16.643h-3.251C13.449 9.9 8.1 4.551 2.057 4.551V0zm0 7.829c4.9 0 8.864 3.964 8.864 8.864h-3.251c0-3.1-2.513-5.613-5.613-5.613V7.829z"/>
+                    </svg>
+                    RSS Feed
+                </a>
+            </section>
+
+            <div class="blog-layout">
+                <div class="blog-posts">
+                    <article class="blog-post">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                December 15, 2024
+                            </div>
+                            <div class="post-category">Lesson Planning</div>
+                        </div>
+                        <h2 class="post-title">
+                            <a href="blog-posts/ai-lesson-planning-guide.html">The Complete Guide to AI-Powered Lesson Planning</a>
+                        </h2>
+                        <p class="post-excerpt">
+                            Discover how artificial intelligence can revolutionize your lesson planning process. Learn practical strategies for using AI tools to create engaging, differentiated lesson plans that save time while improving student outcomes.
+                        </p>
+                        <a href="blog-posts/ai-lesson-planning-guide.html" class="read-more">
+                            Read More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                December 10, 2024
+                            </div>
+                            <div class="post-category">Assessment</div>
+                        </div>
+                        <h2 class="post-title">
+                            <a href="blog-posts/ai-assessment-tools.html">5 AI Assessment Tools That Will Transform Your Grading</a>
+                        </h2>
+                        <p class="post-excerpt">
+                            Explore cutting-edge AI assessment tools that can help you provide faster, more detailed feedback to students. From automated essay scoring to personalized learning analytics, these tools are changing the game for educators.
+                        </p>
+                        <a href="blog-posts/ai-assessment-tools.html" class="read-more">
+                            Read More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                December 5, 2024
+                            </div>
+                            <div class="post-category">Classroom Management</div>
+                        </div>
+                        <h2 class="post-title">
+                            <a href="blog-posts/ai-classroom-management.html">Streamlining Classroom Management with AI</a>
+                        </h2>
+                        <p class="post-excerpt">
+                            Learn how AI can help you manage your classroom more effectively. From attendance tracking to behavior analysis, discover tools that can help you create a more organized and productive learning environment.
+                        </p>
+                        <a href="blog-posts/ai-classroom-management.html" class="read-more">
+                            Read More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="post-meta">
+                            <div class="post-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                November 28, 2024
+                            </div>
+                            <div class="post-category">Student Engagement</div>
+                        </div>
+                        <h2 class="post-title">
+                            <a href="blog-posts/ai-student-engagement.html">Boosting Student Engagement with AI-Powered Activities</a>
+                        </h2>
+                        <p class="post-excerpt">
+                            Discover creative ways to use AI to make your lessons more interactive and engaging. From AI-generated discussion questions to personalized learning paths, learn how to captivate your students' attention.
+                        </p>
+                        <a href="blog-posts/ai-student-engagement.html" class="read-more">
+                            Read More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                            </svg>
+                        </a>
+                    </article>
+                </div>
+
+                <aside class="sidebar">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#lesson-planning">Lesson Planning</a></li>
+                        <li><a href="#assessment">Assessment</a></li>
+                        <li><a href="#classroom-management">Classroom Management</a></li>
+                        <li><a href="#student-engagement">Student Engagement</a></li>
+                        <li><a href="#ai-tools">AI Tools</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                    </ul>
+
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        <li><a href="blog-posts/ai-lesson-planning-guide.html">AI-Powered Lesson Planning</a></li>
+                        <li><a href="blog-posts/ai-assessment-tools.html">5 AI Assessment Tools</a></li>
+                        <li><a href="blog-posts/ai-classroom-management.html">AI Classroom Management</a></li>
+                        <li><a href="blog-posts/ai-student-engagement.html">AI Student Engagement</a></li>
+                    </ul>
+
+                    <div class="rss-subscribe">
+                        <h4>Stay Updated</h4>
+                        <p>Subscribe to our RSS feed to get the latest posts delivered to your feed reader.</p>
+                        <a href="rss.xml">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248S0 22.546 0 20.752s1.456-3.248 3.252-3.248 3.251 1.454 3.251 3.248zM2.057 0C9.24 0 16.7 7.461 16.7 16.643h-3.251C13.449 9.9 8.1 4.551 2.057 4.551V0zm0 7.829c4.9 0 8.864 3.964 8.864 8.864h-3.251c0-3.1-2.513-5.613-5.613-5.613V7.829z"/>
+                            </svg>
+                            Subscribe via RSS
+                        </a>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">Next →</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

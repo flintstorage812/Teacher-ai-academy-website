@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{MODULE_TITLE}} - Teacher AI Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #f8fafc;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Skip Link for Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #3b82f6;
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Header - Same as index.html */
+        header {
+            background: linear-gradient(to bottom, #0b1220 0%, #19243e 35%, #3a4f7a 50%, #19243e 65%, #0b1220 100%);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 0 0 25px 25px;
+            margin: 0 1rem 1rem 1rem;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            min-height: 70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f8fafc;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.35),
+                0 16px 32px rgba(0, 0, 0, 0.25),
+                0 0 6px rgba(255, 255, 255, 0.25),
+                0 0 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .logo:hover {
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #f8fafc;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            letter-spacing: 1px;
+            text-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.35),
+                0 16px 32px rgba(0, 0, 0, 0.25),
+                0 0 6px rgba(255, 255, 255, 0.25),
+                0 0 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Main Content Layout */
+        main {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-summary {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Content Layout */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Sidebar TOC */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            background: linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .toc-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-list a:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            padding-left: 0.5rem;
+        }
+
+        /* Content Sections */
+        .content {
+            max-width: none;
+        }
+
+        .content-section {
+            background: linear-gradient(to bottom, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin: 1.5rem 0 1rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-section p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-section ul, .content-section ol {
+            color: #cbd5e1;
+            margin: 1rem 0 1rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #1e293b;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            position: relative;
+            z-index: 2;
+            overflow-x: auto;
+        }
+
+        .code-block::before {
+            content: "Copy";
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 0 28px;
+            min-width: 200px;
+            border-radius: 9999px;
+            background: #1e3a8a;
+            color: #eaf2ff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.3);
+            transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            background: #2653d3;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 3px;
+        }
+
+        /* Navigation */
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(30, 58, 138, 0.2);
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(30, 58, 138, 0.3);
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #60a5fa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                margin: 0 0.5rem 0.5rem 0.5rem;
+                border-radius: 0 0 20px 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 1.5rem;
+                min-height: auto;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .page-summary {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .content-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .module-navigation {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .btn-primary {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                margin: 0 0.3rem 0.3rem 0.3rem;
+                border-radius: 0 0 15px 15px;
+            }
+
+            nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-summary {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                padding: 1.2rem;
+            }
+
+            .btn-primary {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Teacher AI Academy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="curriculum.html">Curriculum</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">{{MODULE_TITLE}}</h1>
+                <p class="page-summary">
+                    This module provides educators with practical strategies and tools for integrating AI into their teaching practice. 
+                    You'll learn hands-on techniques that can be implemented immediately in your classroom to enhance student learning and streamline your workflow.
+                </p>
+            </div>
+
+            <div class="content-layout">
+                <div class="content">
+                    <section id="overview" class="content-section">
+                        <h2>Overview</h2>
+                        <p>This section provides a comprehensive introduction to the module's key concepts and learning objectives. Understanding the foundation will help you apply the techniques effectively in your teaching practice.</p>
+                        <p>We'll explore the theoretical background, practical applications, and real-world examples that demonstrate how AI can transform educational experiences.</p>
+                    </section>
+
+                    <section id="what-youll-learn" class="content-section">
+                        <h2>What You'll Learn</h2>
+                        <h3>Core Competencies</h3>
+                        <ul>
+                            <li>Understanding AI fundamentals and terminology</li>
+                            <li>Practical implementation strategies</li>
+                            <li>Assessment and evaluation techniques</li>
+                            <li>Ethical considerations and best practices</li>
+                        </ul>
+                        <h3>Skills Development</h3>
+                        <p>By the end of this module, you'll be able to confidently integrate AI tools into your lesson planning, create engaging activities, and assess student learning effectively.</p>
+                    </section>
+
+                    <section id="quick-start-prompts" class="content-section">
+                        <h2>Quick Start Prompts</h2>
+                        <p>Copy and paste these prompts into your preferred AI tool to get started immediately:</p>
+                        
+                        <h3>Lesson Planning Prompt</h3>
+                        <div class="code-block">
+Create a detailed lesson plan for [SUBJECT] grade [LEVEL] that incorporates AI tools. Include learning objectives, activities, assessment methods, and differentiation strategies.
+                        </div>
+
+                        <h3>Content Generation Prompt</h3>
+                        <div class="code-block">
+Generate [TYPE OF CONTENT] for [SUBJECT] that is appropriate for [GRADE LEVEL] students. Include examples, explanations, and practice exercises.
+                        </div>
+
+                        <h3>Assessment Prompt</h3>
+                        <div class="code-block">
+Create a rubric for assessing [ASSIGNMENT TYPE] that includes clear criteria, point values, and examples of different performance levels.
+                        </div>
+                    </section>
+
+                    <section id="step-by-step-practice" class="content-section">
+                        <h2>Step-by-Step Practice</h2>
+                        <h3>Getting Started</h3>
+                        <ol>
+                            <li>Choose an AI tool that fits your needs and comfort level</li>
+                            <li>Start with simple tasks like generating discussion questions</li>
+                            <li>Gradually incorporate more complex AI-assisted activities</li>
+                            <li>Reflect on what works best for your teaching style</li>
+                        </ol>
+                        
+                        <h3>Implementation Strategy</h3>
+                        <p>Begin with low-stakes activities to build confidence. Use AI to enhance existing lessons rather than replacing your teaching methods entirely.</p>
+                    </section>
+
+                    <section id="classroom-ideas" class="content-section">
+                        <h2>Classroom Ideas</h2>
+                        <h3>Interactive Activities</h3>
+                        <ul>
+                            <li>AI-assisted brainstorming sessions</li>
+                            <li>Collaborative content creation projects</li>
+                            <li>Peer review using AI-generated criteria</li>
+                            <li>Student-led AI tool exploration</li>
+                        </ul>
+                        
+                        <h3>Creative Applications</h3>
+                        <p>Encourage students to use AI as a creative partner, helping them develop ideas, refine writing, and explore new perspectives on familiar topics.</p>
+                    </section>
+
+                    <section id="assessment-rubrics" class="content-section">
+                        <h2>Assessment & Rubrics</h2>
+                        <h3>Evaluation Criteria</h3>
+                        <ul>
+                            <li>Understanding of AI concepts and applications</li>
+                            <li>Quality of AI-assisted work products</li>
+                            <li>Critical thinking about AI-generated content</li>
+                            <li>Ethical use of AI tools</li>
+                        </ul>
+                        
+                        <h3>Rubric Template</h3>
+                        <p>Use the provided rubric template to assess student work that incorporates AI tools. Focus on learning outcomes rather than the tools themselves.</p>
+                    </section>
+
+                    <section id="privacy-ethics" class="content-section">
+                        <h2>Privacy & Ethics Notes</h2>
+                        <h3>Student Privacy</h3>
+                        <ul>
+                            <li>Review AI tool privacy policies before classroom use</li>
+                            <li>Ensure compliance with school and district policies</li>
+                            <li>Teach students about data privacy and protection</li>
+                            <li>Use age-appropriate AI tools and platforms</li>
+                        </ul>
+                        
+                        <h3>Ethical Considerations</h3>
+                        <p>Emphasize the importance of using AI responsibly, including proper attribution, critical evaluation of AI-generated content, and maintaining academic integrity.</p>
+                    </section>
+
+                    <section id="downloads" class="content-section">
+                        <h2>Downloads</h2>
+                        <p>Access additional resources and materials to support your implementation of this module:</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="btn-primary">Download Module PDF</a>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="sidebar">
+                    <h3 class="toc-title">On this page</h3>
+                    <ul class="toc-list">
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#what-youll-learn">What You'll Learn</a></li>
+                        <li><a href="#quick-start-prompts">Quick Start Prompts</a></li>
+                        <li><a href="#step-by-step-practice">Step-by-Step Practice</a></li>
+                        <li><a href="#classroom-ideas">Classroom Ideas</a></li>
+                        <li><a href="#assessment-rubrics">Assessment & Rubrics</a></li>
+                        <li><a href="#privacy-ethics">Privacy & Ethics Notes</a></li>
+                        <li><a href="#downloads">Downloads</a></li>
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="module-navigation">
+                <a href="#" class="nav-button">
+                    <span>←</span> Previous Module
+                </a>
+                <a href="curriculum.html" class="back-link">Back to Curriculum</a>
+                <a href="#" class="nav-button">
+                    Next Module <span>→</span>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
