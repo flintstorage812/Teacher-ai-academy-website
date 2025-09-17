@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="alternate" type="application/rss+xml" title="Teacher AI Academy Blog" href="rss.xml">
+    <link rel="alternate" type="application/rss+xml" title="Teacher AI Academy Blog" href="http://localhost:8080/api/rss">
     <style>
         * {
             margin: 0;
@@ -355,6 +355,22 @@
             font-weight: 500;
         }
 
+        /* Loading and Error States */
+        .loading, .no-posts, .error {
+            text-align: center;
+            padding: 3rem;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            color: #3b82f6;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
         /* Pagination */
         .pagination {
             display: flex;
@@ -511,7 +527,7 @@
             <section class="page-title">
                 <h1>AI Education Blog</h1>
                 <p>Insights, tips, and strategies for integrating AI into your teaching practice. Stay updated with the latest trends and practical applications.</p>
-                <a href="rss.xml" class="rss-link">
+                <a href="http://localhost:8080/api/rss" class="rss-link">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248S0 22.546 0 20.752s1.456-3.248 3.252-3.248 3.251 1.454 3.251 3.248zM2.057 0C9.24 0 16.7 7.461 16.7 16.643h-3.251C13.449 9.9 8.1 4.551 2.057 4.551V0zm0 7.829c4.9 0 8.864 3.964 8.864 8.864h-3.251c0-3.1-2.513-5.613-5.613-5.613V7.829z"/>
                     </svg>
@@ -640,7 +656,7 @@
                     <div class="rss-subscribe">
                         <h4>Stay Updated</h4>
                         <p>Subscribe to our RSS feed to get the latest posts delivered to your feed reader.</p>
-                        <a href="rss.xml">
+                        <a href="http://localhost:8080/api/rss">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248S0 22.546 0 20.752s1.456-3.248 3.252-3.248 3.251 1.454 3.251 3.248zM2.057 0C9.24 0 16.7 7.461 16.7 16.643h-3.251C13.449 9.9 8.1 4.551 2.057 4.551V0zm0 7.829c4.9 0 8.864 3.964 8.864 8.864h-3.251c0-3.1-2.513-5.613-5.613-5.613V7.829z"/>
                             </svg>
@@ -658,6 +674,9 @@
             </div>
         </div>
     </main>
+
+    <!-- Blog API Integration -->
+    <script src="blog-api.js"></script>
 </body>
 </html>
 
