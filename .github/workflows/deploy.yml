@@ -1,0 +1,53 @@
+name: Deploy to UnRAID webroot
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: Rsync deploy to server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Start ssh-agent and add key
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          # This uses the secret you already added
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Ensure rsync is available
+        run: sudo apt-get update -y && sudo apt-get install -y rsync
+
+      - name: Rsync files to server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          # fail if secrets not present
+          if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ]; then
+            echo "ERROR: SSH_HOST or SSH_USER secret is empty"; exit 1;
+          fi
+
+          # Sync repo root -> /var/www/html on the server
+          # Excludes .git and GitHub workflow files so they don't get deployed
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='README*' \
+            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
+            ./ ${SSH_USER}@${SSH_HOST}:/var/www/html
+
+      - name: Post-deploy permissions (optional)
+        if: success()
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          # adjust this command to match your server user/group if needed
+          ssh -o StrictHostKeyChecking=no "${SSH_USER}@${SSH_HOST}" 'chown -R root:root /var/www/html || true; chmod -R u+rwX,g+rX,o-rw /var/www/html || true'
