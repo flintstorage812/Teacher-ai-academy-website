@@ -16,9 +16,8 @@ jobs:
           fetch-depth: 0
 
       - name: Start ssh-agent and add key
-       uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.9.1
         with:
-          # This uses the secret you already added
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Ensure rsync is available
@@ -29,13 +28,10 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          # fail if secrets not present
           if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ]; then
             echo "ERROR: SSH_HOST or SSH_USER secret is empty"; exit 1;
           fi
 
-          # Sync repo root -> /var/www/html on the server
-          # Excludes .git and GitHub workflow files so they don't get deployed
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='.github' \
@@ -49,5 +45,4 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          # adjust this command to match your server user/group if needed
-          ssh -o StrictHostKeyChecking=no "${SSH_USER}@${SSH_HOST}" 'chown -R root:root /var/www/html || true; chmod -R u+rwX,g+rX,o-rw /var/www/html || true'
+          ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "sudo chown -R www-data:www-data /var/www/html || true"
