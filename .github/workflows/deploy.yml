@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Start ssh-agent and add key
-        uses: webfactory/ssh-agent@v0.9.1
+       uses: webfactory/ssh-agent@v0.9.1
         with:
           # This uses the secret you already added
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
